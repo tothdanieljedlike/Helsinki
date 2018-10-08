@@ -1,0 +1,27 @@
+{
+  "name": "erettsegi-hianyzasok-ts-node-vue",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "vue": "^2.5.17",
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.11.4",
+    "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-plugin-typescript": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "@vue/eslint-config-prettier": "^3.0.4",
+    "@vue/eslint-config-typescript": "^3.0.4",
+    "eslint-plugin-vue": "^4.7.1",
+    "typescript": "~3.0.3",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

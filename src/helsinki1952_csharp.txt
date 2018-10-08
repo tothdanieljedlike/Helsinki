@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace helsinki1952
+{
+    class Helyezés
+    {
+        public int Hely { get; private set; }
+        public int SportolókSzáma { get; private set; }
+        public string Sportág { get; private set; }
+        public string Versenyszám { get; private set; }
+
+        public Helyezés(string sor)
+        {
+            string[] m = sor.Split();
+            Hely = int.Parse(m[0]);
+            SportolókSzáma = int.Parse(m[1]);
+            Sportág = m[2];
+            Versenyszám = m[3];
+        }
+    }
+
+    class helsinki1952
+    {
+        static void Main()
+        {
+            List<Helyezés> h = new List<Helyezés>();
+            foreach (var i in File.ReadAllLines("helsinki.txt"))
+            {
+                h.Add(new Helyezés(i));
+            }
+
+            Console.WriteLine($"3. feladat:\nPontszerző helyezések száma: {h.Count}");
+
+            //4. feladat: Érmek száma
+            int[] érmek = new int[3];
+            foreach (var i in h)
+            {
+                if (i.Hely < 4) érmek[i.Hely - 1]++;
+            }
+            Console.WriteLine("4. feladat:");
+            Console.WriteLine($"Arany: {érmek[0]}");
+            Console.WriteLine($"Ezüst: {érmek[1]}");
+            Console.WriteLine($"Bronz: {érmek[2]}");
+            Console.WriteLine($"Összesen: {érmek[0]+érmek[1]+érmek[2]}");
+
+            //5. feladat: Olimpiai pontok száma
+            int olimpiaiPontok = 0;
+            int[] pont = new int[] { 7, 5, 4, 3, 2, 1 };
+            foreach (var i in h)
+            {
+                olimpiaiPontok += pont[i.Hely - 1];
+            }
+            Console.WriteLine($"5. feladat:\nOlimpiai pontok száma: {olimpiaiPontok}");
+
+            //6. feladat: Úszás vagy torna?
+            Console.WriteLine("6. feladat:");
+            int éremDbÚszás = 0;
+            int éremDbTorna = 0;
+            foreach (var i in h)
+            {
+                if (i.Hely < 4 && i.Sportág == "uszas") éremDbÚszás++;
+                if (i.Hely < 4 && i.Sportág == "torna") éremDbTorna++;
+            }
+            if (éremDbÚszás == éremDbTorna) Console.WriteLine("Egyenlő volt az érmek száma");
+            else if (éremDbTorna > éremDbÚszás) Console.WriteLine("Torna sportágban szereztek több érmet");
+            else Console.WriteLine("Úszás sportágban szereztek több érmet");
+
+            //7. feladat: helsinki2.txt
+            List<string> ki = new List<string>();
+            foreach (var i in h)
+            {
+                string sportág = i.Sportág;
+                if (sportág == "kajakkenu") sportág = "kajak-kenu";
+                ki.Add($"{i.Hely} {i.SportolókSzáma} {pont[i.Hely - 1]} {sportág} {i.Versenyszám}");
+            }
+            File.WriteAllLines("helsinki2.txt",ki);
+
+
+            //8. Melyik pontszerző helyezéshez fűzödik a legtöbb sportolóból álló csapat?
+            int maxi = 0;
+            for (int i = 1; i < h.Count; i++)
+            {
+                if (h[i].SportolókSzáma > h[maxi].SportolókSzáma) maxi = i;
+            }
+            Console.WriteLine("8. feladat:");
+            Console.WriteLine($"Helyezés: {h[maxi].Hely}");
+            Console.WriteLine($"Sportág: {h[maxi].Sportág}");
+            Console.WriteLine($"Versenyszám: {h[maxi].Versenyszám}");
+            Console.WriteLine($"Sportolók száma: {h[maxi].SportolókSzáma}");
+
+            Console.ReadKey();
+        }
+    }
+}
